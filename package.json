@@ -1,0 +1,36 @@
+{
+  "name": "keystone-next-docker-starter",
+  "version": "1.0.0",
+  "description": "A Keystone Next example/starter project for Docker-based deployments",
+  "main": "index.js",
+  "repository": "git@github.com:molomby/keystone-next-docker-starter.git",
+  "author": "John Molomby <john@thinkmill.com.au>",
+  "license": "MIT",
+  "private": false,
+  "engines": {
+    "node": "^v14.17.0"
+  },
+  "scripts": {
+    "dev": "keystone-next dev",
+    "start": "keystone-next prisma migrate deploy && keystone-next start",
+    "build": "keystone-next build",
+    "format": "prettier --write \"**/*.{js,json,ts,md}\""
+  },
+  "dependencies": {
+    "@keystone-next/admin-ui": "^15.0.0",
+    "@keystone-next/auth": "^25.0.0",
+    "@keystone-next/fields": "^9.0.0",
+    "@keystone-next/keystone": "^18.0.0",
+    "dotenv": "^10.0.0"
+  },
+  "devDependencies": {
+    "prettier": "^2.3.0",
+    "typescript": "^4.3.2"
+  },
+  "prettier": {
+    "proseWrap": "preserve",
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "printWidth": 100
+  }
+}
