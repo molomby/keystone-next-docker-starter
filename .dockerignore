@@ -1,0 +1,18 @@
+# Build assets
+.keystone
+
+# Packages; installed in the image directly
+node_modules
+
+# Dev config
+.git
+.gitignore
+.nvmrc
+.prettierignore
+
+# Build config
+.dockerignore
+Dockerfile
+
+# Logs, etc.
+yarn-error.log
