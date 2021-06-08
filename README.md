@@ -2,7 +2,10 @@
 
 A Keystone Next example/starter project for Docker-based deployments.
 
-**TODO: Intro text**
+We do a two stage build to produce an production ready image.
+Containers will expect a `DATABASE_URL` for the DB server, provisioned elsewhere, and the `SESSION_SECRET`.
+
+Images can be pulled from the [`molomby/keystone-next-starter` repo](https://hub.docker.com/r/molomby/keystone-next-starter) on Docker Hub.
 
 ## App Features
 
@@ -22,11 +25,57 @@ It demos a number of Keystone features, including:
 
 ## Local Dev
 
-**TODO: Local dev instructions**
+This codebase can be run locally by cloning it to your dev environment.
+On MacOS you'd perform the following steps:
 
-## Deployments
+```sh
+# Install postgres (if you don't have it already)
+# This will add a DB role matching your OS username
+brew install postgresql
 
-**TODO: Deployment instructions**
+# Get the repo
+git clone https://github.com/molomby/keystone-next-heroku-starter
+cd keystone-next-heroku-starter
+
+# Install node packages
+yarn
+
+# Start the app
+# A DB will be created automatically and migrated to the latest schema
+yarn dev
+```
+
+Then point your browser to [localhost:3000](http://localhost:3000).
+
+## Build
+
+To build the app into a docker image and run it locally:
+
+```sh
+# Build the image
+docker build --tag keystone-next-starter:latest .
+
+# Before we run the image, lets establish some env vars to pass it
+# This DB url maps to the same DB the app will default to if run locally
+export DATABASE_URL="postgres://$USER@host.docker.internal/keystone-next-docker-starter"
+
+# A ransom session secret
+export SESSION_SECRET=$(head -c40 /dev/urandom | base64 | tr -dc 'A-Za-z0-9' | head -c40)
+
+# Run the image interactively to test, mapping port 3000 to localhost and passing our env vars though
+docker run --init --env DATABASE_URL --env SESSION_SECRET --publish 3000:3000 --name my-keystone keystone-next-starter:latest
+```
+
+If you wanted to push the image to a registry, the steps would be similar to these, replacing `molomby/keystone-next-starter` with your own repo:
+
+```sh
+# Add the published tags
+docker tag keystone-next-starter:latest molomby/keystone-next-starter:latest
+docker tag keystone-next-starter:latest molomby/keystone-next-starter:1.0.0
+
+# Push to docker hub
+docker push --all-tags molomby/keystone-next-starter
+```
 
 ### Migrations
 
